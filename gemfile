@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+gem 'rubyzip'
+gem 'sinatra'
+gem 'git'
+gem 'thin'
+gem 'iami-logger', path: '/Users/iami/Programming/Ruby/Logger'
+gem 'ygoruby-data', path: '/Users/iami/Programming/Ruby/ygoruby-data'

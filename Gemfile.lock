@@ -1,0 +1,49 @@
+PATH
+  remote: /Users/iami/Programming/Ruby/Logger
+  specs:
+    iami-logger (0.1.0)
+      colored
+
+PATH
+  remote: /Users/iami/Programming/Ruby/ygoruby-data
+  specs:
+    ygoruby-data (0.1)
+      ruby-lzma (~> 0.4, >= 0.4.3)
+      sqlite3 (~> 1.3, >= 1.3.13)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colored (1.2)
+    daemons (1.2.4)
+    eventmachine (1.2.3)
+    git (1.3.0)
+    rack (1.6.5)
+    rack-protection (1.5.3)
+      rack
+    ruby-lzma (0.4.3)
+    rubyzip (1.2.1)
+    sinatra (1.4.8)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    sqlite3 (1.3.13)
+    thin (1.7.1)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (>= 1, < 3)
+    tilt (2.0.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  git
+  iami-logger!
+  rubyzip
+  sinatra
+  thin
+  ygoruby-data!
+
+BUNDLED WITH
+   1.14.5

@@ -1,0 +1,55 @@
+mse version: <%= mse_config[:mse_version] %>
+game: yugioh
+stylesheet: <%= mse_config[:mse_stylesheet] %>
+set_info:
+  language: <%= mse_config[:language_name] %>
+  edition:
+  author: mycard
+
+<% cards.each do |card| %>
+card:
+  has styling: false
+  notes:
+  time created: <%= MSEHelp.format_time(Time.now) %>
+  time modified: <%= MSEHelp.format_time(Time.now) %>
+  card type: <%= MSEHelp.format_monster_type(card) %>
+  name: <%= card.name %>
+  level: <%= MSEHelp.format_level(card) %>
+  image: <%= card.id %>.jpg
+    <%- rule_text, pendulum_text = MSEHelp.separate_rule_text(card.desc, mse_config[:language_name]) -%>
+  rule text:
+    <%= rule_text %>
+    <%- if card.is_type_pendulum -%>
+  pendulum: medium
+  pendulum_text:
+    <%= pendulum_text %>
+  pendulum scale 1: <%= card.pendulum_scale %>
+  pendulum scale 2: <%= card.pendulum_scale %>
+    <%- end -%>
+  <%- if card.is_type_monster -%>
+  attribute: <%= MSEHelp.format_attribute(card) %>
+    <%- MSEHelp.format_type(card, environment).each_with_index do |type, index| -%>
+  type <%= index + 1 %>: <%= type %>
+    <%- end -%>
+  monster type:
+    <%- if card.is_type_link %>
+       <%- link_markers = MSEHelp.format_link_markers(card) -%>
+       <%- link_markers.each do |key, value| -%>
+  Link Marker<%= key %>: <%= value %>
+       <%- end -%>
+    <%- end -%>
+  attack: <%= MSEHelp.format_value(card.atk) %>
+    <%- if card.is_type_link -%>
+  link number: <% card.link_number %>
+    <%- else -%>
+  defense: <%= MSEHelp.format_value(card.def) %>
+    <%- end -%>
+  <%- end -%>
+  number:
+  gamecode: <%= sprintf('%08d', card.id) %>
+  copyright:
+<%- end -%>
+
+version control:
+  type: none
+apprentice code:

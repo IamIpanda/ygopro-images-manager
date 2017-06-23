@@ -1,0 +1,76 @@
+mse_version: '0.3.8'
+mse_stylesheet: 'series10'
+attributes:
+  earth: 'earth'
+  water: 'water'
+  fire: 'fire'
+  wind: 'wind'
+  light: 'light'
+  dark: 'dark'
+  devine: 'divine'
+level:
+  star: '*'
+card_type:
+  spell: 'spell card'
+  trap: 'trap card'
+  token: 'token monster'
+  normal: 'normal monster'
+  xyz: 'xyz monster'
+  ritual: 'ritual monster'
+  fusion: 'fusion monster'
+  synchro: 'synchro monster'
+  link: 'link monster'
+  effect: 'effect monster'
+  special:
+    10000000: 'obelisk'
+    10000010: 'ra'
+    10000020: 'slifer'
+monster_type:
+  - fusion
+  - ritual
+  - synchro
+  - xyz
+  - link
+  - pendulum
+  - spsummon
+  - token
+  - spirit
+  - union
+  - dual
+  - tuner
+  - effect
+spell_trap_type:
+  equip: '+'
+  quickplay: '$'
+  field: '&'
+  continuous: '%'
+  ritual: '#'
+  counter: '!'
+  normal: '^'
+link_marker_positions:
+  - 'DL'
+  - 'Down'
+  - 'DR'
+  - 'Left'
+  -
+  - 'Right'
+  - 'UL'
+  - 'Up'
+  - 'UR'
+rule_text_separator:
+  CN:
+    pendulum_effect_head: !ruby/regexp /←\d+ 【灵摆】 \d+→\n?/
+    monster_effect_head: !ruby/regexp /(\n)*(?:【怪兽效果】|【怪兽简介】|【怪兽描述】)\n/
+  US:
+    pendulum_effect_head: !ruby/regexp /Pendulum Scale\s*=\s*\d+\n*\[\s*Pendulum Effect\s*\]\n*(\-n\/a(\-)*)*/
+    monster_effect_head: !ruby/regexp /\n*(-+?\n+)*\n*\[\s*(Monster Effect|Flavor Text)\s*\]\s*?\n/
+  JP:
+    pendulum_effect_head: !ruby/regexp /【Ｐスケール：青(.*)／赤(.*)】(\n)*/
+    monster_effect_head: !ruby/regexp /(\n)*(【モンスター効果】|【モンスター情報】)\n/
+locale_hash:
+  zh-CN: 'CN'
+  zh-TW: 'TW'
+  en-US: 'EN'
+  ja-JP: 'JP'
+race_name_fix:
+  CN: '%s族'

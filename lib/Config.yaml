@@ -1,0 +1,18 @@
+mse_path: '/MagicSetEditor'
+mse_file_path: '/ygopro-mse-project/'
+summary_path: '/ygopro-mse-project/old-summary-<%=locale%>.summary'
+database_path: '/ygopro-database/locales'
+archive_path: '/ygopro-images/<%=locale%>/'
+images_path: '/ygopro-images-raw/pics'
+
+mse_file_card_maximum: 1000
+mse_file_name: '<%=environment.locale%>-<%=index%>.mse-set'
+mse_output_appendix: '.png'
+mse_output_command: 'wine <%=mse_path%> --export <%=mse_file_path%> <%=archive_path%>/{card.gamecode}<%=appendix%>'
+
+image_file_name: '<%=card.id%>.jpg'
+
+temp_mse_name: '/temp.mse-set'
+temp_output_dir: '/temp'
+
+server_authorization_key: '1234567890'

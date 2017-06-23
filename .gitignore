@@ -1,0 +1,12 @@
+# Created by .ignore support plugin (hsz.mobi)
+ygopro-images/
+ygopro-mse-project/
+temp/
+test/
+.idea/
+
+
+MagicSetEditor/
+ygopro-database/
+ygopro-images-raw/
+yugioh-images/
