@@ -1,9 +1,9 @@
 [submodule "MagicSetEditor"]
 	path = MagicSetEditor
 	url = https://github.com/moecube/MagicSetEditor
-[submodule "yugioh-images"]
-	path = yugioh-images
-	url = git@github.com:moecube/yugioh-images.git
 [submodule "ygopro-database"]
 	path = ygopro-database
 	url = https://github.com/moecube/ygopro-database
+[submodule "ygopro-images-raw"]
+	path = ygopro-images-raw
+	url = git@github.com:moecube/ygopro-images.git
