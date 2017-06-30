@@ -34,6 +34,11 @@ module YgoproImagesManager
       ids = current_summary.environment_summary.keys & current_summary.image_summary.keys
       cards = ids.map { |id| environment[id] }
       process_extra_cards cards, environment
+      # 把图片缩小到标准尺寸
+      Archive[locale].process
+      # 上传图片
+      Archive[locale].pack
+      Archive[locale].push
     end
 
     def run_diff(locale)
@@ -60,6 +65,11 @@ module YgoproImagesManager
       process_extra_cards extra_cards, environment
       # 获取移除的卡片，删除存档
       process_removed_card removed_ids
+      # 把图片缩小到标准尺寸
+      Archive[locale].process#(extra_cards, removed_cards)
+      # 打包上传图片
+      Archive[locale].pack
+      Archive[locale].push
     end
 
     def run_id(locale, id)

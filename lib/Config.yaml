@@ -3,7 +3,10 @@ mse_file_path: '/ygopro-mse-project/'
 summary_path: '/ygopro-mse-project/old-summary-<%=locale%>.summary'
 database_path: '/ygopro-database/locales'
 archive_path: '/ygopro-images/<%=locale%>/'
+archive_dist_path: '/ygopro-images/<%=locale%>-dist/'
+archive_dist_pack: '/ygopro-images/<%=locale%>-dist.zip'
 images_path: '/ygopro-images-raw/pics'
+image_magick_path: 'imagemagick'
 
 mse_file_card_maximum: 1000
 mse_file_name: '<%=environment.locale%>-<%=index%>.mse-set'
@@ -16,3 +19,6 @@ temp_mse_name: '/temp.mse-set'
 temp_output_dir: '/temp'
 
 server_authorization_key: '1234567890'
+
+github_user_name: 'xinguangyao@gmail.com'
+github_user_password: '000000000'

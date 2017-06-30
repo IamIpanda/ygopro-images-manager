@@ -38,6 +38,8 @@ module Config
     define_method(:mse_file_path) { File.join @basic_path, @config['mse_file_path'] }
     define_method(:database_path) { File.join @basic_path, @config['database_path'] }
     define_method(:archive_path) { |locale| ERB.new(File.join(@basic_path, @config['archive_path'])).result binding }
+    define_method(:archive_dist_path) { |locale| ERB.new(File.join(@basic_path, @config['archive_dist_path'])).result binding }
+    define_method(:archive_dist_pack) { |locale| ERB.new(File.join(@basic_path, @config['archive_dist_pack'])).result binding }
     define_method(:images_path) { File.join @basic_path, @config['images_path'] }
     define_method(:summary_path) { |locale| ERB.new(File.join(@basic_path, @config['summary_path'])).result binding }
 

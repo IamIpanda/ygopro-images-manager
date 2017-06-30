@@ -1,18 +1,24 @@
+require 'github_api'
 require File.dirname(__FILE__) + '/../Config.rb'
 
 class Git
   attr_accessor :path
   attr_accessor :source
   attr_accessor :branch
+  # repo
+  attr_accessor :author
+  attr_accessor :repo_name
 
   def initialize
     @source = 'origin'
     @branch = 'master'
   end
 
-  def self.open(path)
+  def self.open(path, repo_name = nil, author = 'moecube')
     repo = Git.new
     repo.path = path
+    repo.author = author
+    repo.repo_name = repo_name == nil ? File.basename(path) : repo_name
     repo
   end
 
@@ -26,7 +32,9 @@ class Git
 
   def pull
     command = "cd #{path} && git pull #{@source} #{@branch}"
-    `#{command}`
+    result = `#{command}`
+    ygopro_images_manager_logger.info result
+    result
   end
 
   def push
@@ -35,6 +43,24 @@ class Git
 
   def full_status
     [status, last_change_time].to_json
+  end
+
+  def pull_latest_release(locale, dist)
+    list = Github.repos.releases.list @author, @repo_name
+    release = list[0]
+    assets = release.assets
+    asset = assets[3]
+    uri = asset.browser_download_url
+  end
+
+  def push_leatest_release(locale, src)
+    list = Github.repos.releases.list @author, @repo_name
+    release = list[0]
+    assets = release.assets
+    asset = assets[3]
+    github.repos.releases.assets.upload @author, @repo_name, release.id, src,
+      name: 'xxx',
+      content_type: 'application/octet-stream'
   end
 end
 
