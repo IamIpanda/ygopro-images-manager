@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../Config.rb'
 require 'json'
+require 'zip'
 
 class Archive
   attr_accessor :environment
@@ -38,11 +39,22 @@ class Archive
   end
 
   def pull
-    GitManager.images_raw_repo.pull_latest_release(Config.archive_dist_pack(@environment.locale))
+    # 下载
+    return unless GitManager.images_raw_repo.pull_latest_release(@environment.locale, Config.archive_dist_pack(@environment.locale))
+    # 解压缩
+    # https://stackoverflow.com/questions/19754883/how-to-unzip-a-zip-file-containing-folders-and-files-in-rails-while-keeping-the
+    ygopro_images_manager_logger.info "Unzipping pack file [#{@environment.locale}] #{archive_path}"
+    Zip::File.open(Config.archive_dist_pack(@environment.locale)) do |zip_file|
+      zip_file.each do |f|
+        f_path = File.join(archive_dist_path, f.name)
+        FileUtils.mkdir_p(File.dirname(f_path))
+        zip_file.extract(f, f_path) { true }
+      end
+    end
   end
 
   def push
-
+    GitManager.images_raw_repo.push_latest_release(environment.console, Config.archive_dist_pack(@environment.locale), '123.zip')
   end
 
   def state
@@ -52,13 +64,12 @@ class Archive
   def process
     Dir.mkdir archive_dist_path unless Dir.exist? archive_dist_path
     Dir.mkdir archive_dist_thumbnail_path unless Dir.exist? archive_dist_thumbnail_path
-    command = "ls -1 #{archive_path} | sed -e \"s/\\.png$//\" | xargs -I {} magick \"#{archive_path}{}#{Config.mse_output_appendix}\" \\( +clone -resize 177x254! -write \"#{archive_dist_path}{}.jpg\" +delete \\) -resize 44x64! \"#{archive_dist_thumbnail_path}{}.jpg\""
+    command = "ls -1 #{archive_path} | grep #{Config.mse_output_appendix} | sed -e \"s/\\.png$//\" | xargs -I {} magick \"#{archive_path}{}#{Config.mse_output_appendix}\" \\( +clone -resize 177x254! -write \"#{archive_dist_path}{}.jpg\" +delete \\) -resize 44x64! \"#{archive_dist_thumbnail_path}{}.jpg\""
     ygopro_images_manager_logger.info "Processing command:" + command
     exec command
   end
 
   def pack
-    require 'zip'
     ygopro_images_manager_logger.info "Packing archive [#{@environment.locale}] #{archive_dist_path}"
     Zip::File.open(Config.archive_dist_pack(@environment.locale), Zip::File::CREATE) do |zip_file|
       Dir.glob(archive_dist_path + '*.jpg').each do |file|
@@ -70,19 +81,6 @@ class Archive
         zip_file.add('thumbnail/' + File.basename(file), file) { true }
       end
     end
-  end
-
-  def self.auth
-    require 'net/http'
-    uri = URI('https://api.github.com')
-    req = Net::HTTP::Get.new(uri)
-    req.basic_auth 'username', 'password'
-    http = Net::HTTP.new(uri.hostname, uri.port)
-    http.use_ssl = true
-    res = http.start do |http_client|
-      http_client.request(req)
-    end
-    JSON.parse res.body
   end
 end
 

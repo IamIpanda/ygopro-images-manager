@@ -92,9 +92,11 @@ end
 
 # 设置存档中的某张图片
 post %r{/archive/([a-zA-Z\-]+)/(\d+)} do
-  archive = Archive[parmas['captures'][0]]
+  archive = Archive[params['captures'][0]]
   id = params['captures'][1].to_i
-  archive.set id, data
+  data = request.body.read
+  archive[id] = data
+  'ok'
 end
 
 # 获得数据库状态
@@ -179,11 +181,11 @@ post '/raw/pull' do
 end
 
 # 更新某张中间图
-post %r{/raw/update/([a-zA-Z\-]+)/(\d+)} do
+post %r{/raw/([a-zA-Z\-]+)/(\d+)} do
   locale = params['captures'][0]
   id = params['captures'][1]
   body = request.body.read
-  IO.write Config.images_path(locale) + "/#{id}.jpg", body
+  IO.write Config.images_path + "/#{id}.jpg", body
   'ok'
 end
 
@@ -193,21 +195,21 @@ end
 
 post '/run/abort' do
   result = ImageProcessThread.abort
-  result ? [200, 'ok'] : [412, 'ok']
+  result ? [200, 'into the thread.'] : [412, 'ok']
 end
 
 # 对于每一个语言，对比前后变动并上传
 post '/run/all/diff' do
   description = request.body.read
   result = ImageProcessThread.execute(description) { Ygoruby::Environment.valid_locale_list.each { |locale| YgoproImagesManager.run_diff locale } }
-  result ? [200, 'ok'] : [504, 'busy']
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 # 对于每一个语言，重新生成所有卡图
 post '/run/all/all' do
   description = request.body.read
   result = ImageProcessThread.execute(description) { Ygoruby::Environment.valid_locale_list.each { |locale| YgoproImagesManager.run_all locale } }
-  result ? [200, 'ok'] : [504, 'busy']
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 # 对比前后变动并上传
@@ -215,7 +217,7 @@ post %r{/run/([a-zA-Z\-]+)/diff} do
   locale = params['captures'][0]
   description = request.body.read
   result = ImageProcessThread.execute(description) { YgoproImagesManager.run_diff locale }
-  result ? [200, 'ok'] : [504, 'busy']
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 # 重新生成所有卡图
@@ -223,7 +225,7 @@ post %r{/run/([a-zA-Z\-]+)/all} do
   locale = params['captures'][0]
   description = request.body.read
   result = ImageProcessThread.execute(description) { YgoproImagesManager.run_all locale }
-  result ? [200, 'ok'] : [504, 'busy']
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 
@@ -233,4 +235,11 @@ get %r{/run/([a-zA-Z\-]+)/(\d+)} do
   id = params['captures'][1]
   content_type 'image/png'
   YgoproImagesManager.run_id locale, id
+end
+
+post %r{/run/([a-zA-Z\-]+)/(\d+)} do
+  locale = params['captures'][0]
+  id = params['captures'][1]
+  content_type 'image/png'
+  YgoproImagesManager.run_id locale, id, true
 end

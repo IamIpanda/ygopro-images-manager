@@ -48,18 +48,37 @@ class Git
   def pull_latest_release(locale, dist)
     list = Github.repos.releases.list @author, @repo_name
     release = list[0]
+    if release == nil
+      ygopro_images_manager_logger.warn "No release for #{@author}/#{@repo_name}. No file will be downloaded."
+      return false
+    else
+      ygopro_images_manager_logger.info "Find release [#{release.id}]#{release.name}"
+    end
     assets = release.assets
-    asset = assets[3]
-    uri = asset.browser_download_url
+    asset = nil
+    for asset in assets
+      break if asset.name.include? "#{locale}.zip"
+    end
+    if asset == nil
+      ygopro_images_manager_logger.warn "No file named #{locale}, No file will be downloaded."
+      return false
+    else
+      ygopro_images_manager_logger.info "Find asset [#{asset.id}]#{asset.name}"
+    end
+    # curl 下载
+    command = "curl -vLJo #{dist} -H 'Accept: application/octet-stream' 'https://api.github.com/repos/#{@author}/#{@repo_name}/releases/assets/#{asset.id}'"
+    ygopro_images_manager_logger.info "Executing command #{command}"
+    `#{command}`
+    return true
   end
 
-  def push_leatest_release(locale, src)
+  def push_latest_release(locale, src, name)
     list = Github.repos.releases.list @author, @repo_name
     release = list[0]
     assets = release.assets
     asset = assets[3]
     github.repos.releases.assets.upload @author, @repo_name, release.id, src,
-      name: 'xxx',
+      name: name,
       content_type: 'application/octet-stream'
   end
 end
@@ -72,9 +91,9 @@ module GitManager
     attr_accessor :current_repo
 
     def initialize
-      @mse_repo = Git.open(Config.mse_path)
-      @database_repo = Git.open(Config.database_path + '/..')
-      @images_raw_repo = Git.open(Config.images_path + '/..')
+      @mse_repo = Git.open(Config.mse_path, 'MagicSetEditor')
+      @database_repo = Git.open(Config.database_path + '/..', 'ygopro-database')
+      @images_raw_repo = Git.open(Config.images_path + '/..', 'ygopro-images')
       @current_repo = Git.open(Config.basic_path)
       @mse_repo.branch = 'win32'
     end

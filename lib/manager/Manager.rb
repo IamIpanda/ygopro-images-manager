@@ -58,11 +58,11 @@ module YgoproImagesManager
       end
       # 去掉不存在的
       extra_ids &= current_summary.image_summary.keys
-      # 保存摘要
-      current_summary.save Config.summary_path locale
       # 获取添加的卡片，生成卡片
       extra_cards = extra_ids.map { |id| environment[id] }
       process_extra_cards extra_cards, environment
+      # 保存摘要
+      current_summary.save Config.summary_path locale
       # 获取移除的卡片，删除存档
       process_removed_card removed_ids
       # 把图片缩小到标准尺寸
@@ -72,7 +72,7 @@ module YgoproImagesManager
       Archive[locale].push
     end
 
-    def run_id(locale, id)
+    def run_id(locale, id, formal = false)
       # 载入卡片
       environment = Ygoruby::Environment[locale]
       Ygoruby.fix environment
@@ -83,8 +83,9 @@ module YgoproImagesManager
       end
       # 生成卡片
       generate_mse_file([card], environment, Config.temp_mse_name)
-      output_mse_file File.join(Config.mse_file_path, Config.temp_mse_name), File.dirname(__FILE__) + '/../..' + Config.temp_output_dir
-      IO.read File.dirname(__FILE__) + '/../..' + Config.temp_output_dir + "/#{id}#{Config.mse_output_appendix}"
+      output_dir = formal ? Config.archive_path(locale) : (File.dirname(__FILE__) + '/../..' + Config.temp_output_dir)
+      output_mse_file File.join(Config.mse_file_path, Config.temp_mse_name), output_dir
+      IO.read output_dir + "/#{id}#{Config.mse_output_appendix}"
     end
 
     def process_extra_cards(cards, environment)

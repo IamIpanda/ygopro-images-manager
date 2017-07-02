@@ -35,12 +35,12 @@ card:
     <%- if card.is_type_link %>
        <%- link_markers = MSEHelp.format_link_markers(card) -%>
        <%- link_markers.each do |key, value| -%>
-  Link Marker<%= key %>: <%= value %>
+  Link Marker <%= key %>: <%= value %>
        <%- end -%>
     <%- end -%>
   attack: <%= MSEHelp.format_value(card.atk) %>
     <%- if card.is_type_link -%>
-  link number: <% card.link_number %>
+  link number: <%= card.link_number %>
     <%- else -%>
   defense: <%= MSEHelp.format_value(card.def) %>
     <%- end -%>

@@ -135,12 +135,12 @@ module MSEHelp
     ERB.new(MSEHelp.model, 0, '-').result(binding).gsub '  ', "\t"
   end
 
-  def set_corpus(corpus)
+  def self.set_corpus(corpus)
     IO.write File.dirname(__FILE__) + '/MSECorpus.yaml', corpus
     MSEHelp.load
   end
 
-  def set_model(model)
+  def self.set_model(model)
     IO.write File.dirname(__FILE__) + '/MSEModel.erb', model
     MSEHelp.load
   end
