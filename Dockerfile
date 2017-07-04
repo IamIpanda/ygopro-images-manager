@@ -2,14 +2,10 @@ FROM ruby
 
 RUN dpkg --add-architecture i386
 RUN apt-get update
-RUN apt-get install -y wine xvfb imagemagick
+RUN apt-get install -y wine imagemagick
 
-RUN bundle config --global frozen 1
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-COPY Gemfile /usr/src/app/
-COPY Gemfile.lock /usr/src/app/
-RUN bundle install
 
 RUN git config --global user.email "zh99998+mycard@gmail.com"
 RUN git config --global user.name "mycard"
@@ -22,5 +18,10 @@ RUN wineboot -i
 COPY magicseteditor/fonts /root/.wine/drive_c/windows/Fonts
 
 COPY . /usr/src/app
+RUN bundle config --global frozen 1
+COPY Gemfile /usr/src/app/
+COPY Gemfile.lock /usr/src/app/
+RUN bundle install
 
-CMD xvfb-run --server-args="-screen 0 1x0x24" ./Server.rb
+RUN git submodule update --recursive --init
+RUN ruby /usr/src/app/test/test.rb
