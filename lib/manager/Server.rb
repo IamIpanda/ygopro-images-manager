@@ -250,3 +250,5 @@ post %r{/run/([a-zA-Z\-]+)/(\d+)} do
   content_type 'image/png'
   YgoproImagesManager.run_id locale, id, true
 end
+
+set :bind, '0.0.0.0'
