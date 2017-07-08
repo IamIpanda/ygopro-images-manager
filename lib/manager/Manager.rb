@@ -38,7 +38,7 @@ module YgoproImagesManager
       Archive[locale].process
       # 上传图片
       Archive[locale].pack
-      Archive[locale].push
+#      Archive[locale].push
     end
 
     def run_diff(locale)
@@ -69,7 +69,7 @@ module YgoproImagesManager
       Archive[locale].process#(extra_cards, removed_cards)
       # 打包上传图片
       Archive[locale].pack
-      Archive[locale].push
+      # Archive[locale].push
     end
 
     def run_id(locale, id, formal = false)

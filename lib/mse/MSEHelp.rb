@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'yaml'
 require 'erb'
 
@@ -12,7 +13,7 @@ module MSEHelp
   load
 
   def self.format_time(time)
-    time.strftime "%Y-%m-%d %H:%M:%S"
+    time.strftime '%Y-%m-%d %H:%M:%S'
   end
 
   def self.format_monster_type(card)
@@ -98,19 +99,26 @@ module MSEHelp
     rule_text_separator = MSEHelp.corpus['rule_text_separator'][locale]
     if rule_text_separator == nil
       ygopro_images_manager_logger.warning "No rule text separator defined for #{locale}, will do no separate."
-      return [reline_text(text), '']
+      return [reline_text(text, locale), '']
     end
     words = text.split rule_text_separator['monster_effect_head']
-    return [reline_text(text), ''] if words.count <= 1
+    return [reline_text(text, locale), ''] if words.count <= 1
     pendulum_effect = words[0].gsub rule_text_separator['pendulum_effect_head'], ''
     pendulum_effect = '' if pendulum_effect == nil
-    [reline_text(words[words.length - 1]), reline_text(pendulum_effect)]
+    [reline_text(words[words.length - 1], locale), reline_text(pendulum_effect, locale)]
   end
 
-  def self.reline_text(text)
-    text.gsub! "。\n", '。'
+  def self.reline_text(text, locale)
+    text.gsub! /(?=。\n●.+。$)。\n/, '。'
+    text.gsub! /(?!。\n●)。\n/, '。'
     text.gsub! "\n", "\n\t\t"
     text = text.strip
+    text = MSEHelp.replace_format_text text, locale
+    text
+  end
+
+  def self.replace_format_text(text, locale)
+    text.gsub(/([鮟|鱇|0-9|a-z|A-Z])+/) { |match| "<i>#{match}</i>" } if locale == 'CN'
     text
   end
 

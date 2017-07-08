@@ -53,33 +53,40 @@ end
 # 令存档从Git同步
 post %r{/archive/([a-zA-Z\-]+)/pull} do
   archive = Archive[params['captures'][0]]
-  archive.pull
+  result = ImageProcessThread.execute(description) { archive.pull }
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 # 令存档上传至Git
 post %r{/archive/([a-zA-Z\-]+)/push} do
   archive = Archive[params['captures'][0]]
-  archive.push
+  result = ImageProcessThread.execute(description) { archive.push }
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 # 处理存档，打包并上传至Git
 post %r{/archive/([a-zA-Z\-]+)/full_push} do
   archive = Archive[params['captures'][0]]
-  archive.process
-  archive.pack
-  archive.push
+  result = ImageProcessThread.execute(description) do
+    archive.process
+    archive.pack
+    archive.push
+  end
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 # 处理存档
 post %r{/archive/([a-zA-Z\-]+)/process} do
   archive = Archive[params['captures'][0]]
-  archive.process
+  result = ImageProcessThread.execute(description) { archive.process }
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 # 打包处理后的存档图片
 post %r{/archive/([a-zA-Z\-]+)/pack} do
   archive = Archive[params['captures'][0]]
-  archive.pack
+  result = ImageProcessThread.execute(description) { archive.pack }
+  result ? [200, 'into the thread.'] : [504, 'busy']
 end
 
 # 获得存档中的某张图片

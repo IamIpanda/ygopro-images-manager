@@ -54,7 +54,7 @@ class Archive
   end
 
   def push
-    GitManager.images_raw_repo.push_latest_release(environment.console, Config.archive_dist_pack(@environment.locale), '123.zip')
+    GitManager.images_raw_repo.push_latest_release(environment.locale, Config.archive_dist_pack(@environment.locale), '123.zip')
   end
 
   def state
@@ -66,7 +66,7 @@ class Archive
     Dir.mkdir archive_dist_thumbnail_path unless Dir.exist? archive_dist_thumbnail_path
     command = "ls -1 #{archive_path} | grep #{Config.mse_output_appendix} | sed -e \"s/\\.png$//\" | xargs -I {} magick \"#{archive_path}{}#{Config.mse_output_appendix}\" \\( +clone -resize 177x254! -write \"#{archive_dist_path}{}.jpg\" +delete \\) -resize 44x64! \"#{archive_dist_thumbnail_path}{}.jpg\""
     ygopro_images_manager_logger.info "Processing command:" + command
-    exec command
+    system command
   end
 
   def pack

@@ -1,6 +1,8 @@
 mse version: <%= mse_config[:mse_version] %>
 game: yugioh
 stylesheet: <%= mse_config[:mse_stylesheet] %>
+set info:
+  hide gamecode: yes
 set_info:
   language: <%= mse_config[:language_name] %>
   edition:
@@ -13,7 +15,7 @@ card:
   time created: <%= MSEHelp.format_time(Time.now) %>
   time modified: <%= MSEHelp.format_time(Time.now) %>
   card type: <%= MSEHelp.format_monster_type(card) %>
-  name: <%= card.name %>
+  name: <%= MSEHelp.replace_format_text(card.name, mse_config[:language_name]) %>
   level: <%= MSEHelp.format_level(card) %>
   image: <%= card.id %>.jpg
     <%- rule_text, pendulum_text = MSEHelp.separate_rule_text(card.desc, mse_config[:language_name]) -%>

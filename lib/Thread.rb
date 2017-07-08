@@ -27,10 +27,10 @@
 
     def abort
       if @execute_thread == nil
-        ygopro_iamges_manager_logger.warn "No thread is running but request to abort."
+        ygopro_images_manager_logger.warn "No thread is running but request to abort."
         false
       else
-        @execute_thread.abort
+        @execute_thread.kill
         true
       end
     end

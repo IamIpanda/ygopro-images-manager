@@ -61,7 +61,7 @@ rule_text_separator:
   CN:
     pendulum_effect_head: !ruby/regexp /←\d+ 【灵摆】 \d+→\n?/
     monster_effect_head: !ruby/regexp /(\n)*(?:【怪兽效果】|【怪兽简介】|【怪兽描述】)\n/
-  US:
+  EN:
     pendulum_effect_head: !ruby/regexp /Pendulum Scale\s*=\s*\d+\n*\[\s*Pendulum Effect\s*\]\n*(\-n\/a(\-)*)*/
     monster_effect_head: !ruby/regexp /\n*(-+?\n+)*\n*\[\s*(Monster Effect|Flavor Text)\s*\]\s*?\n/
   JP:
