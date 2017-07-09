@@ -1,11 +1,13 @@
-PATH
-  remote: /Users/iami/Programming/Ruby/Logger
+GIT
+  remote: git://github.com/IamIpanda/RubyLogger.git
+  revision: c9ef8089c67afe129155ef00c26ecd03d7069669
   specs:
     iami-logger (0.1.0)
       colored
 
-PATH
-  remote: /Users/iami/Programming/Ruby/ygoruby-data
+GIT
+  remote: git://github.com/IamIpanda/ygoruby-data.git
+  revision: 2908fcfd918a586c1d43b34c284f59a4bff429f1
   specs:
     ygoruby-data (0.1)
       ruby-lzma (~> 0.4, >= 0.4.3)
@@ -35,28 +37,30 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    mustermann (1.0.0)
     oauth2 (1.4.0)
       faraday (>= 0.8, < 0.13)
       jwt (~> 1.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    rack (1.6.5)
-    rack-protection (1.5.3)
+    rack (2.0.3)
+    rack-protection (2.0.0)
       rack
     ruby-lzma (0.4.3)
     rubyzip (1.2.1)
-    sinatra (1.4.8)
-      rack (~> 1.5)
-      rack-protection (~> 1.4)
-      tilt (>= 1.3, < 3)
+    sinatra (2.0.0)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.0)
+      tilt (~> 2.0)
     sqlite3 (1.3.13)
-    thin (1.7.1)
+    thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
       rack (>= 1, < 3)
     thread_safe (0.3.6)
-    tilt (2.0.6)
+    tilt (2.0.7)
 
 PLATFORMS
   ruby
