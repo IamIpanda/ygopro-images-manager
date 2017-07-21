@@ -15,13 +15,13 @@ WORKDIR /usr/src/app
 ENV WINEARCH=win32
 ENV RACK_ENV=production
 RUN wineboot -i
-COPY magicseteditor/fonts /root/.wine/drive_c/windows/Fonts
+COPY MagicSetEditor/fonts /root/.wine/drive_c/windows/Fonts
 
 COPY . /usr/src/app
 COPY Gemfile /usr/src/app/
 COPY Gemfile.lock /usr/src/app/
 RUN bundle config --global frozen 1
-RUN bundle install
+RUN bundle install --no-deployment
 
 RUN git submodule update --recursive
 ENTRYPOINT ruby /usr/src/app/entrypoint.rb
