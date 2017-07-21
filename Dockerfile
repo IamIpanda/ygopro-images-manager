@@ -24,4 +24,4 @@ RUN bundle config --global frozen 1
 RUN bundle install
 
 RUN git submodule update --recursive
-ENTRYPOINT ruby /usr/src/app/test/test.rb
+ENTRYPOINT ruby /usr/src/app/entrypoint.rb
