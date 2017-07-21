@@ -81,6 +81,7 @@ class Git
       name: name,
       content_type: 'application/octet-stream'
   end
+
 end
 
 module GitManager
@@ -96,6 +97,9 @@ module GitManager
       @images_raw_repo = Git.open(Config.images_path + '/..', 'ygopro-images')
       @current_repo = Git.open(Config.basic_path)
       @mse_repo.branch = 'win32'
+      Github.configure do |c|
+        c.basic_auth = Config.github
+      end
     end
   end
 end

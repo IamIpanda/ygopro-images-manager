@@ -42,6 +42,7 @@ module Config
     define_method(:archive_dist_pack) { |locale| ERB.new(File.join(@basic_path, @config['archive_dist_pack'])).result binding }
     define_method(:images_path) { File.join @basic_path, @config['images_path'] }
     define_method(:summary_path) { |locale| ERB.new(File.join(@basic_path, @config['summary_path'])).result binding }
+    define_method(:github) { @config['github_user_name'] + ":" + @config['github_user_password'] }
 
   end
 end
