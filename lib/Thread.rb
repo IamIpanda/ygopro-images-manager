@@ -1,4 +1,4 @@
- module ImageProcessThread
+module ImageProcessThread
   class << self
     attr_accessor :execute_thread
     attr_accessor :last_commit_time

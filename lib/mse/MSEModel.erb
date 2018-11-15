@@ -7,6 +7,7 @@ set_info:
   language: <%= mse_config[:language_name] %>
   edition:
   author: mycard
+  no corner: yes
 
 <% cards.each do |card| %>
 card:
@@ -28,8 +29,8 @@ card:
   pendulum scale 1: <%= card.pendulum_scale %>
   pendulum scale 2: <%= card.pendulum_scale %>
     <%- end -%>
-  <%- if card.is_type_monster -%>
   attribute: <%= MSEHelp.format_attribute(card) %>
+  <%- if card.is_type_monster -%>
     <%- MSEHelp.format_type(card, environment).each_with_index do |type, index| -%>
   type <%= index + 1 %>: <%= type %>
     <%- end -%>

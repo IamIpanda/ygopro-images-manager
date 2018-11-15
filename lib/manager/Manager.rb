@@ -77,7 +77,7 @@ module YgoproImagesManager
       environment = Ygoruby::Environment[locale]
       Ygoruby.fix environment
       card = environment[id]
-      if card == nil
+      if card.nil?
         ygopro_images_manager_logger.info "run id return nothing for no that card [#{environment.locale}]/#{id}"
         return nil
       end

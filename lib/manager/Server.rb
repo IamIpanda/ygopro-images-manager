@@ -241,14 +241,14 @@ get %r{/run/([a-zA-Z\-]+)/(\d+)} do
   locale = params['captures'][0]
   id = params['captures'][1]
   content_type 'image/png'
-  YgoproImagesManager.run_id locale, id
+  YgoproImagesManager.run_id locale, id.to_i
 end
 
 post %r{/run/([a-zA-Z\-]+)/(\d+)} do
   locale = params['captures'][0]
   id = params['captures'][1]
   content_type 'image/png'
-  YgoproImagesManager.run_id locale, id, true
+  YgoproImagesManager.run_id locale, id.to_i, true
 end
 
 set :bind, '0.0.0.0'
