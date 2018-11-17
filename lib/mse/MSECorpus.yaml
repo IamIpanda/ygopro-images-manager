@@ -8,6 +8,9 @@ attributes:
   light: 'light'
   dark: 'dark'
   devine: 'divine'
+additional_attributes:
+  spell: 'spell'
+  trap: 'trap'
 level:
   star: '*'
 card_type:

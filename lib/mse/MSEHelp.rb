@@ -47,6 +47,9 @@ module MSEHelp
   end
 
   def self.format_attribute(card)
+    # 游戏王你给我再变个新卡种出来试试？
+    return MSEHelp.corpus['additional_attributes']['spell'] if card.is_type_spell
+    return MSEHelp.corpus['additional_attributes']['trap'] if card.is_type_trap
     attributes = MSEHelp.corpus['attributes']
     for key in attributes.keys
       if card.send(('is_attribute_' + key).to_sym)
